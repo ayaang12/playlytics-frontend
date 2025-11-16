@@ -1,25 +1,58 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Playlists from "./Playlists";
+import Loading from "./Loading/Loading";
 
 export default function Callback() {
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
-    const state = params.get("state");
+  const apiKey = import.meta.env.VITE_FRONTEND_API_KEY;
+  const api = import.meta.env.VITE_BACKEND_URL;
+  const params = new URLSearchParams(window.location.search);
 
+  const [processed, setProcessed] = useState(false);
+  const [expireSecs, setExpireSecs] = useState(0);
+  const [accessToken, setAccessToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
+  const [scope, setScope] = useState("");
+
+  const code = params.get("code");
+  const state = params.get("state");
+
+  useEffect(() => {
     if (!code || !state) return;
 
-    fetch("http://localhost:8000/api/auth/exchange", {
+    fetch(`${api}/api/auth/exchange`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code, state })
+      headers: {
+        "Content-Type": "application/json",
+        "X-Frontend-Api-Key": apiKey,
+      },
+      body: JSON.stringify({ code, state }),
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         console.log("Tokens:", data);
+
+        setAccessToken(data.access_token);
+        setRefreshToken(data.refresh_token);
+        setScope(data.scope);
+        setExpireSecs(data.expires_in);
+
+        setProcessed(true);
       })
       .catch(() => console.log("Exchange failed"));
   }, []);
 
-  return <div>Processing login…</div>;
+  return (
+    <div>
+      {!processed ? (
+        <Loading />
+      ) : (
+        <Playlists
+          accessToken={accessToken}
+          refreshToken={refreshToken}
+          scope={scope}
+          expireSecs={expireSecs}
+        />
+      )}
+    </div>
+  );
 }
-
