@@ -4,7 +4,7 @@ type Props = {
   name: string;
   songs: number;
   minutes: number;
-  image: string; // now required
+  image: string;
 };
 
 function PlaylistCard({ name, songs, minutes, image }: Props) {
