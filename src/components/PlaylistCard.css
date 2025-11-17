@@ -25,3 +25,10 @@
   font-size: 24px;
   font-family: "Glacial Indifference";
 }
+
+.playlist-card-author {
+  margin: 6px 0;
+  color: white;
+  font-size: 14px;
+  opacity: 0.8;
+}
