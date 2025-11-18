@@ -8,6 +8,7 @@ interface PlaylistsProps {
   accessToken: string;
   refreshToken: string;
   scope: string;
+  onGoHome?: () => void;
 }
 
 interface PlaylistsData {
@@ -36,6 +37,7 @@ const Playlists: React.FC<PlaylistsProps> = ({
   accessToken,
   refreshToken,
   scope,
+  onGoHome,
 }) => {
   const [playlists, setPlaylists] = useState<PlaylistsData[]>([]);
 
@@ -87,7 +89,7 @@ const Playlists: React.FC<PlaylistsProps> = ({
           cursor: "pointer",
         }}
         onClick={() => {
-          window.location.href = "/";
+          onGoHome?.();
         }}
       >
         PLAYLISTS
