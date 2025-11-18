@@ -21,16 +21,18 @@ export default function Callback() {
   useEffect(() => {
     if (!code || !state) return;
 
-    fetch(`${api}/api/auth/exchange`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Frontend-Api-Key": apiKey,
-      },
-      body: JSON.stringify({ code, state }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
+    (async () => {
+      try {
+        const res = await fetch(`${api}/api/auth/exchange`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Frontend-Api-Key": apiKey,
+          },
+          body: JSON.stringify({ code, state }),
+        });
+
+        const data = await res.json();
         console.log("Tokens:", data);
 
         setAccessToken(data.access_token);
@@ -39,8 +41,10 @@ export default function Callback() {
         setExpireSecs(data.expires_in);
 
         setProcessed(true);
-      })
-      .catch(() => console.log("Exchange failed"));
+      } catch {
+        console.log("Exchange failed");
+      }
+    })();
   }, []);
 
   if (showLanding) {
