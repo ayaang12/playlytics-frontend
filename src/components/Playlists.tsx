@@ -30,6 +30,7 @@ interface PlaylistItem {
   owner: {
     display_name: string;
   };
+  external_urls: { spotify: string };
 }
 
 const Playlists: React.FC<PlaylistsProps> = ({
@@ -59,6 +60,7 @@ const Playlists: React.FC<PlaylistsProps> = ({
             length: 120, // placeholder
             image: i.images[0]?.url || "",
             author: i.owner["display_name"] || "Unknown",
+            external_urls: i.external_urls.spotify,
           })
         );
 
