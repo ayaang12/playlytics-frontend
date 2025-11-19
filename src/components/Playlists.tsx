@@ -1,12 +1,13 @@
-// TODO: detect reloads and get new codes for everything so it doesnt break after expireSecs
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PlaylistCard from "./PlaylistCard";
 import Randomize from "./Randomize";
+
+import type { Tokens } from "./Callback";
 
 interface PlaylistsProps {
   expireSecs: number;
   accessToken: string;
+  setAccessToken: React.Dispatch<React.SetStateAction<string>>;
   refreshToken: string;
   scope: string;
   onGoHome?: () => void;
@@ -41,11 +42,23 @@ const Playlists: React.FC<PlaylistsProps> = ({
   refreshToken,
   scope,
   onGoHome,
+  setAccessToken,
 }) => {
   const [playlists, setPlaylists] = useState<PlaylistsData[]>([]);
   const [randomPlaylist, setRandomPlaylist] = useState<PlaylistsData | null>(
     null
   );
+
+  // fix accessToken
+  useEffect(() => {
+    if (accessToken) return;
+
+    const saved = localStorage.getItem("spotifyTokens");
+    if (!saved) return;
+
+    const tokens: Tokens = JSON.parse(saved);
+    if (tokens?.accessToken) setAccessToken(tokens.accessToken); // if the access token is defined update accessToken state to equal the localstorage value
+  }, [accessToken, setAccessToken]);
 
   // get user playlists
   useEffect(() => {
@@ -87,7 +100,7 @@ const Playlists: React.FC<PlaylistsProps> = ({
         console.error("Error fetching playlists:", err);
       }
     })();
-  }, []);
+  }, [accessToken]);
 
   // show random playlist
   useEffect(() => {

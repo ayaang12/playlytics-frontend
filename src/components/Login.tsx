@@ -6,19 +6,6 @@ const Login = () => {
   console.log("API URL:", api);
 
   const getAuthUrl = async () => {
-    // fetch(`${api}/api/auth/url`, {
-    //   method: "GET",
-    //   headers: {
-    //     "X-Frontend-Api-Key": apiKey,
-    //   },
-    // })
-    //   .then((r) => r.json())
-    //   .then((data) => {
-    //     const { url } = data;
-    //     window.location.href = url;
-    //     return;
-    //   });
-
     const res = await fetch(`${api}/api/auth/url`, {
       method: "GET",
       headers: {
