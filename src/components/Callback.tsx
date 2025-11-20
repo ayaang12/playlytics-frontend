@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import Playlists from "./Playlists";
-import Loading from "./Loading/Loading";
+import Playlists from './Playlists';
+import Loading from './Loading/Loading';
 
 export interface Tokens {
   accessToken: string;
@@ -19,21 +19,21 @@ export default function Callback() {
 
   const [processed, setProcessed] = useState(false);
   const [expireSecs, setExpireSecs] = useState(0);
-  const [accessToken, setAccessToken] = useState("");
-  const [refreshToken, setRefreshToken] = useState("");
-  const [scope, setScope] = useState("");
+  const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
+  const [scope, setScope] = useState('');
 
-  const code = params.get("code");
-  const state = params.get("state");
+  const code = params.get('code');
+  const state = params.get('state');
 
   const exchanged = useRef(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("spotifyTokens");
+    const saved = localStorage.getItem('spotifyTokens');
     const tokens: Tokens | null = saved ? JSON.parse(saved) : null;
 
     if (tokens?.accessToken) {
-      console.log("tokens alr in localstorage:", tokens);
+      console.log('tokens alr in localstorage:', tokens);
       setAccessToken(tokens.accessToken);
       setRefreshToken(tokens.refreshToken);
       setScope(tokens.scope);
@@ -49,23 +49,24 @@ export default function Callback() {
 
     if (!code || !state) return;
 
+    // exchange code for auth token and refresh token and time till expiration and scope
     (async () => {
       try {
         const res = await fetch(`${api}/api/auth/exchange`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
-            "X-Frontend-Api-Key": apiKey,
+            'Content-Type': 'application/json',
+            'X-Frontend-Api-Key': apiKey,
           },
           body: JSON.stringify({ code, state }),
         });
 
         if (!res.ok) {
-          console.error("Exchange failed");
+          console.error('Exchange failed');
           return;
         }
         const data = await res.json();
-        console.log("Tokens:", data);
+        console.log('Tokens:', data);
 
         const tokens: Tokens = {
           accessToken: data.access_token,
@@ -74,8 +75,8 @@ export default function Callback() {
           expireSecs: data.expires_in,
         };
 
-        console.log("tokens:", tokens);
-        localStorage.setItem("spotifyTokens", JSON.stringify(tokens));
+        console.log('tokens:', tokens);
+        localStorage.setItem('spotifyTokens', JSON.stringify(tokens));
 
         setAccessToken(tokens.accessToken);
         setRefreshToken(tokens.refreshToken);
@@ -84,10 +85,10 @@ export default function Callback() {
 
         setProcessed(true);
       } catch {
-        console.log("Exchange failed");
+        console.log('Exchange failed');
       }
     })();
-  }, []);
+  }, [api, apiKey, code, state]);
 
   return (
     <div>
@@ -100,7 +101,7 @@ export default function Callback() {
           refreshToken={refreshToken}
           scope={scope}
           expireSecs={expireSecs}
-          onGoHome={() => navigate("/")}
+          onGoHome={() => navigate('/')}
         />
       )}
     </div>
