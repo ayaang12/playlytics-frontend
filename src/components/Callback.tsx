@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Playlists from "./Playlists";
 import Loading from "./Loading/Loading";
-import Landing from "./Landing";
 
 export interface Tokens {
   accessToken: string;
@@ -13,9 +14,9 @@ export interface Tokens {
 export default function Callback() {
   const apiKey = import.meta.env.VITE_FRONTEND_API_KEY;
   const api = import.meta.env.VITE_BACKEND_URL;
+  const navigate = useNavigate();
   const params = new URLSearchParams(window.location.search);
 
-  const [showLanding, setShowLanding] = useState(false);
   const [processed, setProcessed] = useState(false);
   const [expireSecs, setExpireSecs] = useState(0);
   const [accessToken, setAccessToken] = useState("");
@@ -88,10 +89,6 @@ export default function Callback() {
     })();
   }, []);
 
-  if (showLanding) {
-    return <Landing />;
-  }
-
   return (
     <div>
       {!processed ? (
@@ -103,7 +100,7 @@ export default function Callback() {
           refreshToken={refreshToken}
           scope={scope}
           expireSecs={expireSecs}
-          onGoHome={() => setShowLanding(true)}
+          onGoHome={() => navigate("/")}
         />
       )}
     </div>

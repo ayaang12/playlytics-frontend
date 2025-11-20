@@ -51,6 +51,8 @@ const Playlists: React.FC<PlaylistsProps> = ({
 
   // fix accessToken
   useEffect(() => {
+    // TODO: If code is expired get refresh code using refreshToken
+    // - requires new backend endpoint ill make it in a bit when im less dead im sick asf rn
     if (accessToken) return;
 
     const saved = localStorage.getItem("spotifyTokens");
