@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlaylistCard from "./PlaylistCard";
 import Randomize from "./Randomize";
 
@@ -158,6 +158,7 @@ const Playlists: React.FC<PlaylistsProps> = ({
             minutes={playlist.length}
             image={playlist.image}
             author={playlist.author}
+            spotifyUrl={playlist.external_urls ?? ""}
           />
         ))}
       </div>
