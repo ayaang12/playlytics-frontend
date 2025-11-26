@@ -14,6 +14,7 @@ function App({ forceLanding = false }: AppProps) {
       {!forceLanding && <Route path="/callback" element={<Callback />} />}
       <Route path="*" element={<Landing />} />
     </Routes>
+    
   );
 }
 

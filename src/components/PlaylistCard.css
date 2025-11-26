@@ -29,6 +29,7 @@
 .playlist-card-author {
   margin: 6px 0;
   color: white;
-  font-size: 14px;
+  font-size: 18px;
   opacity: 0.8;
+  font-family: "Glacial Indifference";
 }

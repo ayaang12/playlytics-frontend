@@ -129,7 +129,7 @@ const Playlists: React.FC<PlaylistsProps> = ({ onGoHome }) => {
           flexWrap: "wrap",
           gap: "40px",
           paddingTop: "10%",
-          paddingLeft: "2%",
+          justifyContent: "center"
         }}
       >
         {playlists.map((playlist) => (

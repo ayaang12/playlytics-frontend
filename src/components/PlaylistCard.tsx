@@ -1,4 +1,4 @@
-import GoToSpotifyButton from "./GoToSpotifyButton";
+import DetailsButton from "./DetailsButton";
 import "./PlaylistCard.css";
 
 type Props = {
@@ -28,7 +28,7 @@ function PlaylistCard({
       <p className="playlist-card-info">
         {songs} songs | {minutes} min
       </p>
-      <GoToSpotifyButton url={spotifyUrl} />
+      <DetailsButton url={spotifyUrl} />
     </div>
   );
 }
