@@ -28,7 +28,16 @@ function PlaylistCard({
       <p className="playlist-card-info">
         {songs} songs | {minutes} min
       </p>
-      <DetailsButton url={spotifyUrl} />
+      <DetailsButton
+        playlistData={{
+          name,
+          author,
+          songs,
+          minutes,
+          image,
+          spotifyUrl,
+        }}
+      />
     </div>
   );
 }
