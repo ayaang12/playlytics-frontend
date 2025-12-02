@@ -1,0 +1,21 @@
+.randomize-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #353535;
+  border: 4px solid #1ed760;
+  border-radius: 80px;
+  padding: 5px 20px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.randomize-text {
+  color: white;
+  font-weight: 800;
+  font-size: 26px;
+  font-family: "League Spartan";
+}
