@@ -1,21 +1,30 @@
 import { useNavigate } from "react-router-dom";
 
-type Props = {
-  playlistData: {
-    name: string;
-    author: string;
-    songs: number;
-    minutes: number;
-    image: string;
-    spotifyUrl: string;
-  };
+type PlaylistData = {
+  name: string;
+  author: string;
+  songs: number;
+  minutes: number;
+  image: string;
+  spotifyUrl: string;
+  id: string;
 };
 
-function DetailsButton({ playlistData }: Props) {
+function DetailsButton({
+  id,
+  name,
+  author,
+  songs,
+  minutes,
+  spotifyUrl,
+  image,
+}: PlaylistData) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/playlist-details", { state: playlistData });
+    navigate("/playlist-details", {
+      state: { id, name, author, songs, minutes, spotifyUrl, image },
+    });
   };
 
   return (
@@ -41,7 +50,7 @@ function DetailsButton({ playlistData }: Props) {
           border: "4px solid #1ed760",
         }}
       >
-        PLAYLIST DETAILS
+        <span>PLAYLIST DETAILS</span>
       </button>
     </div>
   );
